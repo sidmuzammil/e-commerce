@@ -2,8 +2,13 @@ import React, { useState } from "react";
 import { BsCheckCircleFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { logoLight } from "../../assets/images";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../Firebase-config";
 
 const SignUp = () => {
+
+
+ 
   // ============= Initial State Start here =============
   const [clientName, setClientName] = useState("");
   const [email, setEmail] = useState("");
@@ -68,7 +73,7 @@ const SignUp = () => {
   };
   // ================= Email Validation End here ===============
 
-  const handleSignUp = (e) => {
+  const handleSignUp = async(e) => {
     e.preventDefault();
     if (checked) {
       if (!clientName) {
@@ -118,6 +123,14 @@ const SignUp = () => {
         setSuccessMsg(
           `Hello dear ${clientName}, Welcome you to OREBI Admin panel. We received your Sign up request. We are processing to validate your access. Till then stay connected and additional assistance will be sent to you by your mail at ${email}`
         );
+    
+          try{
+            const user =await createUserWithEmailAndPassword(auth,email,password)
+          } catch(error){
+            console.log(error.message);
+          }
+          
+
         setClientName("");
         setEmail("");
         setPhone("");

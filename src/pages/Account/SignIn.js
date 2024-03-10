@@ -2,11 +2,23 @@ import React, { useState } from "react";
 import { BsCheckCircleFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { logoLight } from "../../assets/images";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../Firebase-config";
 
 const SignIn = () => {
   // ============= Initial State Start here =============
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+
+  const regEmail=async ()=>{
+    try{
+      const user =await createUserWithEmailAndPassword(auth,email,password)
+    } catch(error){
+      console.log(error.message);
+    }
+    
+  }
   // ============= Initial State End here ===============
   // ============= Error Msg Start here =================
   const [errEmail, setErrEmail] = useState("");
@@ -141,8 +153,9 @@ const SignIn = () => {
                     Work Email
                   </p>
                   <input
-                    onChange={handleEmail}
+                    // onChange={handleEmail}
                     value={email}
+                    onChange={(e)=>{setEmail(e.target.value)}}
                     className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
                     type="email"
                     placeholder="john@workemail.com"
@@ -161,8 +174,9 @@ const SignIn = () => {
                     Password
                   </p>
                   <input
-                    onChange={handlePassword}
-                    value={password}
+                    // onChange={handlePassword}
+                    // value={password}
+                    onChange={(e)=>{setPassword(e.target.value)}}
                     className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
                     type="password"
                     placeholder="Create password"
@@ -176,7 +190,8 @@ const SignIn = () => {
                 </div>
 
                 <button
-                  onClick={handleSignUp}
+                  // onClick={handleSignUp}
+                  onClick={regEmail}
                   className="bg-primeColor hover:bg-black text-gray-200 hover:text-white cursor-pointer w-full text-base font-medium h-10 rounded-md  duration-300"
                 >
                   Sign In
